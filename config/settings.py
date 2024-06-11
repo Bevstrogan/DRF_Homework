@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "users",
     "materials",
+    "django-filters"
 ]
 
 MIDDLEWARE = [
@@ -58,11 +59,15 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "DATABASE": os.getenv("NAME"),
-        "USER": os.getenv("USER"),
+        "USER": 'postgres', #При os.getenv не работает
         "PASSWORD": os.getenv("PASSWORD"),
         "HOST": os.getenv("HOST"),
         "PORT": os.getenv("PORT"),
