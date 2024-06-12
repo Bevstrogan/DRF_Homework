@@ -21,7 +21,7 @@ class CourseDetailSerializer(ModelSerializer):
 
     def get_course_lesson(self, course):
         lessons_set = Lesson.objects.filter(course=course.id)
-        return [(lesson.lesson_name, lesson.lesson_description, lesson.lesson_url, lesson.owner) for lesson in
+        return [(lesson.lesson_name, lesson.lesson_description, lesson.lesson_url) for lesson in
                 lessons_set]
 
     def get_course_lesson_count(self, course):
