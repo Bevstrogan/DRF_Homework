@@ -22,10 +22,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_filters",
     "rest_framework",
     "users",
     "materials",
-    "django-filters"
 ]
 
 MIDDLEWARE = [
@@ -66,7 +66,7 @@ REST_FRAMEWORK = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "DATABASE": os.getenv("NAME"),
+        "NAME": os.getenv("NAME"),
         "USER": 'postgres', #При os.getenv не работает
         "PASSWORD": os.getenv("PASSWORD"),
         "HOST": os.getenv("HOST"),
