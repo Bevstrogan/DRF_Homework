@@ -3,6 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
+from materials.permissions import IsAuth
 from users.models import Payment, User
 from users.serializers import PaymentSerializer, UserSerializer
 
@@ -37,7 +38,7 @@ class UserRetrieveAPIView(RetrieveAPIView):
 class UserUpdateAPIView(UpdateAPIView):
     serializer_class = User
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuth]
 
 class UserDestroyAPIView(DestroyAPIView):
     queryset = User.objects.all()

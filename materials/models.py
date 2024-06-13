@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -20,6 +21,7 @@ class Course(models.Model):
         null=True,
         blank=True,
     )
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Владелец курса')
 
     class Meta:
         verbose_name = "Курс"
@@ -57,6 +59,7 @@ class Lesson(models.Model):
         Course, on_delete=models.CASCADE, verbose_name="Курс", null=True, blank=True
     )
 
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Владелец урока')
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
