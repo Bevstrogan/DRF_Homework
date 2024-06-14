@@ -14,12 +14,12 @@ router.register("", CourseViewSet)
 urlpatterns = [
     path("lesson/", LessonListAPIView.as_view(), name="lessons_list"),
     path("lesson/create/", LessonCreateAPIView.as_view(), name="lessons_create"),
-    path("lesson/<int:pk>", LessonRetrieveAPIView.as_view(), name="lessons_retrieve"),
+    path("lesson/<int:pk>/", LessonRetrieveAPIView.as_view(), name="lessons_retrieve"),
     path(
-        "lesson/<int:pk>/delete/", LessonDestroyPIView.as_view(), name="lessons_delete"
+        "lesson/delete/<int:pk>/", LessonDestroyPIView.as_view(), name="lessons_delete"
     ),
     path(
-        "lesson/<int:pk>/update/", LessonUpdateAPIView.as_view(), name="lessons_update"
+        "lesson/update/<int:pk>/", LessonUpdateAPIView.as_view(), name="lessons_update"
     ),
     path("subscription/create/", SubscriptionCreateAPIView.as_view(), name="subscription_create")
 ]
