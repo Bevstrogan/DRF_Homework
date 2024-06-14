@@ -2,7 +2,7 @@ from rest_framework.permissions import BasePermission
 
 class IsModerator(BasePermission):
     def has_permission(self, request, view):
-        if request.user.is_staff:
+        if request.user.groups.filter(name='moderators').exists:
             return True
         return "Отказано в доступе"
 
@@ -13,7 +13,7 @@ class IsNotModerator(BasePermission):
         return "Отказано в доступе"
 
 class IsAuth(BasePermission):
-    def has_permission(self, request, view):
-        if request.user == view.get_object().owner:
+    def has_object_permission(self, request, view, obj):
+        if request.user.id == obj.id:
             return True
         return "Отказано в доступе"
