@@ -1,16 +1,19 @@
 from rest_framework.permissions import BasePermission
 
+
 class IsModerator(BasePermission):
     def has_permission(self, request, view):
-        if request.user.groups.filter(name='moderators').exists:
+        if request.user.groups.filter(name="moderators").exists:
             return True
         return "Отказано в доступе"
+
 
 class IsNotModerator(BasePermission):
     def has_object_permission(self, request, view, obj):
         if obj.owner == request.user or request.user.is_superuser:
             return True
         return "Отказано в доступе"
+
 
 class IsAuth(BasePermission):
     def has_object_permission(self, request, view, obj):

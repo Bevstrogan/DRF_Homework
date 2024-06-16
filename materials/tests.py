@@ -37,13 +37,15 @@ class LessonTestCase(APITestCase):
         self.assertEqual(Lesson.objects.all().count(), 2)
         self.assertEqual(
             response.json(),
-            {'course': 1,
-                'id': 2,
-                'lesson_description': 'Description_test',
-                'lesson_name': 'Lesson1',
-                'lesson_preview': None,
-                'lesson_url': 'https://course1.youtube.com/',
-                'owner': 1},
+            {
+                "course": 1,
+                "id": 2,
+                "lesson_description": "Description_test",
+                "lesson_name": "Lesson1",
+                "lesson_preview": None,
+                "lesson_url": "https://course1.youtube.com/",
+                "owner": 1,
+            },
         )
 
     def test_lesson_retrieve(self):
@@ -56,7 +58,10 @@ class LessonTestCase(APITestCase):
 
     def test_lesson_update(self):
         url = reverse("materials:lessons_update", args=(self.lesson.pk,))
-        data = {"lesson_name": "Lesson1_update", "lesson_description": "Description_update"}
+        data = {
+            "lesson_name": "Lesson1_update",
+            "lesson_description": "Description_update",
+        }
         response = self.client.patch(url, data)
         data1 = response.json
         print(data1)
