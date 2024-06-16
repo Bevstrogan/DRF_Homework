@@ -1,5 +1,5 @@
 from drf_yasg.inspectors import SwaggerAutoSchema
-from drf_yasg.utils import swagger_auto_schema
+from materials.tasks import send_mail
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -44,7 +44,6 @@ class Decorate_Viewset_Methods(SwaggerAutoSchema):
         return decorate
 
 
-@Decorate_Viewset_Methods.decorate_viewset_methods(names="__all__", decorator=swagger_auto_schema(tags=['names']))
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
@@ -55,11 +54,11 @@ class CourseViewSet(ModelViewSet):
     ]
     pagination_class = CoursePaginator
 
-    def get_serializer_class(self):
-        if self.action == "retrieve":
-            return CourseDetailSerializer
-        return CourseSerializer
-
+    def update(self, request, pk):
+        course = get_object_or_404(Course, pk=pk)
+        send_mail.delay(course_id=course.id)
+        print(f'Курс {course.name} обновлен')
+        return super().update(request)
 
 class LessonCreateAPIView(CreateAPIView):
     serializer_class = LessonSerializer
