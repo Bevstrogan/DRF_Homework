@@ -10,15 +10,19 @@ from users.models import User
 
 @shared_task
 def send_mail(course_id):
-    course = Course.objects.get(pk=course_id)
-    subscribers = Subscription.objects.get(course=course_id)
-
-    send_mail(
-        subject=f'Курс {course} обновлен',
-        message=f'Курс {course}, на который вы подписаны обновлен',
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[subscribers.user.email]
-    )
+    instance = Course.objects.filter(pk=course_id).first()
+    if instance:
+        subscribers = Subscription.objects.filter(course=instance)
+        if len(list(subscribers)) > 0:
+            subs = []
+            for subscriber in subscribers:
+                subs.append(User.objects.get(pk=subscriber.user.pk).email)
+            send_mail(
+                subject=f'Курс {instance.name} обновлен',
+                message=f'Курс {instance.name}, на который вы подписаны обновлен',
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=subs
+            )
 
 @shared_task
 def check_user():
@@ -29,4 +33,4 @@ def check_user():
             if now - user.last_login > timedelta(days=30):
                 user.is_active = False
                 user.save()
-                print(f'Аккаунт {user} был отключен за неиспользование в течении 30 дней')
+                print(f'Аккаунт {user} больше не активен из-за бездействия')

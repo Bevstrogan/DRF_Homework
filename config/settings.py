@@ -78,7 +78,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": os.getenv("NAME"),
-        "USER": "postgres",  # При os.getenv не работает
+        "USER": os.getenv("POSTGRES_USER"),  # При os.getenv не работает
         "PASSWORD": os.getenv("PASSWORD"),
         "HOST": os.getenv("HOST"),
         "PORT": os.getenv("PORT"),
@@ -138,7 +138,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BEAT_SCHEDULE = {
     'check_user': {
         'task': 'materials.tasks.check_user',
-        'schedule': timedelta(minutes=1)
+        'schedule': timedelta(days=1)
     }
 }
 
